@@ -71,19 +71,41 @@ deduplicado_datos/
 - Python 3.7 o superior
 - Para deduplicado por texto: `langchain_community`, `pypdf`
 
-Instala las dependencias con:
-
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
 ## Instalación
 
 1. Clona el repositorio o descarga los archivos.
-2. Instala las dependencias.
-3. Coloca los archivos PDF a analizar en el directorio `documents/`.
+
+```bash
+git clone https://github.com/osm3rr/deduplicado_de_datos
+```
+
+2. Muevete a la carpeta del proyecto.
+
+```bash
+cd deduplicado_datos
+```
+
+3. Crea y activa un entorno virtual.
+
+```bash
+python -m venv .venv
+
+# En macOS/Linux
+source .venv/bin/activate  
+
+# windows
+.venv\Scripts\activate 
+```
+
+4. Instala las dependencias.
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Coloca los archivos PDF a analizar en el directorio `documents/`.
 
 ---
 
