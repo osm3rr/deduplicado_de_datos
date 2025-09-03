@@ -7,6 +7,7 @@ Este proyecto contiene dos utilidades en Python para identificar archivos PDF du
 ## Tabla de Contenidos
 
 - [Descripción General](#descripción-general)
+- [Estrategias de Deduplicado](#estrategias-de-deduplicado)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Requisitos](#requisitos)
 - [Instalación](#instalación)
@@ -21,12 +22,105 @@ Este proyecto contiene dos utilidades en Python para identificar archivos PDF du
 
 ## Descripción General
 
-- **find_duplicate_hash_archivo.py**  
-  Busca archivos PDF duplicados comparando el hash SHA-256 de cada archivo. Detecta duplicados exactos (bit a bit).
+Este repositorio permite identificar archivos PDF duplicados en un directorio, utilizando dos estrategias complementarias:
 
-- **find_duplicate_hash_texto.py**  
-  Busca archivos PDF duplicados comparando el hash SHA-256 del texto extraído de cada archivo. Detecta duplicados aunque los archivos tengan diferencias en metadatos o estructura, siempre que el contenido textual sea idéntico.
+1. **Deduplicado exacto por hash de archivo:** Detecta archivos idénticos bit a bit.
+2. **Deduplicado por hash de contenido textual:** Detecta archivos con el mismo texto, aunque tengan diferencias en metadatos o estructura interna.
+
+Ambas estrategias ayudan a mantener tus colecciones de documentos limpias y libres de duplicados, facilitando la gestión y el almacenamiento eficiente.
+
+---
+
+## Estrategias de Deduplicado
+
+### 1. Deduplicado Exacto (Hash de Archivo)
+
+- **¿Cómo funciona?**  
+  El script recorre todos los archivos PDF en el directorio y calcula el hash SHA-256 de cada archivo completo. Si dos archivos tienen el mismo hash, son idénticos en todos sus bits (incluyendo metadatos, imágenes, etc.).
+- **¿Cuándo usarlo?**  
+  Cuando necesitas identificar duplicados exactos, sin importar el contenido.
+
+### 2. Deduplicado por Contenido Textual
+
+- **¿Cómo funciona?**  
+  El script extrae el texto de cada PDF y calcula el hash SHA-256 solo del texto. Así, detecta duplicados aunque los archivos tengan diferencias en metadatos, fechas, estructura interna o imágenes, siempre que el texto sea el mismo.
+- **¿Cuándo usarlo?**  
+  Cuando te interesa identificar documentos con el mismo contenido, aunque hayan sido generados o guardados de forma diferente.
 
 ---
 
 ## Estructura del Proyecto
+
+```
+deduplicado_datos/
+│
+├── find_duplicate_hash_archivo.py   # Detección de duplicados exactos
+├── find_duplicate_hash_texto.py     # Detección de duplicados por texto
+├── requirements.txt                 # Dependencias del proyecto
+├── README.md                        # Este archivo
+└── documents/                       # Carpeta donde colocar los PDFs a analizar
+    ├── archivo1.pdf
+    ├── archivo2.pdf
+    └── ...
+```
+
+---
+
+## Requisitos
+
+- Python 3.7 o superior
+- Para deduplicado por texto: `langchain_community`, `pypdf`
+
+Instala las dependencias con:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Instalación
+
+1. Clona el repositorio o descarga los archivos.
+2. Instala las dependencias.
+3. Coloca los archivos PDF a analizar en el directorio `documents/`.
+
+---
+
+## Uso
+
+### Detección de duplicados exactos
+
+```bash
+python find_duplicate_hash_archivo.py
+```
+- Busca archivos PDF idénticos bit a bit en `documents/` y subcarpetas.
+
+### Detección de duplicados por contenido textual
+
+```bash
+python find_duplicate_hash_texto.py
+```
+- Busca archivos PDF con el mismo texto, aunque tengan diferencias en metadatos o estructura.
+
+---
+
+## Personalización
+
+- Cambia el directorio de búsqueda modificando la variable `SOURCE_DIRECTORY` en los scripts.
+- Para buscar otros tipos de archivo, ajusta la extensión en la condición `if filename.lower().endswith('.pdf')`.
+
+---
+
+## Notas sobre el directorio `documents/`
+
+- El directorio `documents/` está en `.gitignore` para evitar subir archivos privados o pesados.
+- Puedes crear subdirectorios dentro de `documents/`; los scripts buscarán recursivamente.
+
+---
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT.
+
+---
